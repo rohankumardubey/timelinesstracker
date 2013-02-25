@@ -38,7 +38,7 @@
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="qrcodeLabel" min="-2" pref="159" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="mapLabel" pref="441" max="32767" attributes="0"/>
+                      <Component id="mapLabel" pref="795" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -121,13 +121,10 @@
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="144" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="busyLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="730" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="busyLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace pref="144" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

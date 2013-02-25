@@ -259,27 +259,6 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     this.busyLabel.setBusy(true);
     this.busyLabel.setText("Working...");
     new Thread(new SearchByFlightThread(this)).start();
-    /*FlightStatusComm comm = new FlightStatusComm();
-	String flightName = this.airlineField.getSelectedItem().toString();
-	String flightNumber = this.flightNumberField.getText();
-	String dateField = this.dateField.getText();
-	boolean ismultipleFlight = comm.queryFlightStatusByFlight(flightName, flightNumber, dateField, FlightStatusComm.SearchMethod.BY_FLIGHT);
-
-    if (ismultipleFlight) {
-        Vector<String> flightSegments = comm.getMultipleFlightOptions();
-        String s = (String)JOptionPane.showInputDialog(new JFrame(), "This flight has multiple segments. \n" 
-                                                        + "Please select a segment from the list: ",
-                                                       "Multiple Flights Alert", 
-                                                       JOptionPane.QUESTION_MESSAGE,
-                                                       null, flightSegments.toArray(),
-                                                       flightSegments.get(0));
-        System.out.println("Selected : " + s);
-        comm.selectFlightSegmentPage(s);
-    }
-   	this.flightStatusPane.setText(comm.getFlightStatusTable());
-    this.flightInfoPane.setText(comm.getFlightInformation());
-   	this.qrcodeLabel.setIcon(new ImageIcon(comm.getQRCode()));
-    this.mapLabel.setIcon(new ImageIcon(comm.getMap()));*/
 }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -395,29 +374,50 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
 
         public void setStatus(String status) {
+            if (status == null) {
+                status = "N/A";
+            }
             statusLabel.setText("<html><b>Status : </b>" + status.replaceAll("\n", " ") + "</html>");
         }
         public void setSchedDeparture(String schedDeparture) {
+            if (schedDeparture == null) {
+                schedDeparture = "N/A";
+            }
             schedDepartureLabel.setText(convertToMultiLine("<b>Scheduled Departure</b>\n" + schedDeparture));
         }
 
         public void setSchedArrival(String schedArrival) {
+            if (schedArrival == null) {
+                schedArrival = "N/A";
+            }
             schedArrivalLabel.setText(convertToMultiLine("<b>Scheduled Arrival</b>\n" + schedArrival));
         }
 
         public void setActDeparture(String actDeparture) {
+            if (actDeparture == null) {
+                actDeparture = "N/A";
+            }
             actDepartureLabel.setText(convertToMultiLine("<b>Actual Departure</b>\n" + actDeparture));
         }
 
         public void setEstArrival(String estArrival) {
+            if (estArrival == null) {
+                estArrival = "N/A";
+            }
             estArrivalLabel.setText(convertToMultiLine("<b>Estimated Arrival</b>\n" + estArrival));
         }
         
         public void setGate(String gate) {
+            if (gate == null) {
+                gate = "N/A";
+            }
             gateLabel.setText(convertToMultiLine("<b>Gate</b>\n" + gate));
         }
         
         public void setBaggageClaim(String baggageClaim) {
+            if (baggageClaim == null) {
+                baggageClaim = "N/A";
+            }
             baggageClaimLabel.setText(convertToMultiLine("<b>Baggage Claim</b>\n" + baggageClaim));
         }
         
@@ -469,14 +469,23 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
         
         public void setRoute(String route) {
+            if (route == null) {
+                route = "N/A";
+            }
             routeLabel.setText("<html><b>Route : </b>" + route.replaceAll("\n", " ") + "</html>");
         }
 
         public void setDuration(String duration) {
+            if (duration == null) {
+                duration = "N/A";
+            }
             durationLabel.setText("<html><b>Duration : </b>" + duration + "</html>");
         }
 
         public void setEquipment(String equipment) {
+            if (equipment == null) {
+                equipment = "N/A";
+            }
             equipmentLabel.setText("<html><b>Equipment : </b>" + equipment + "</html>");       
         }
 
@@ -489,6 +498,9 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 output = m.group();
             }
             System.out.println("Match : " + output);
+            if (output == null) {
+                output = "N/A";
+            }
             onTimeLabel.setText("<html><b>On Time Rating : </b>" + output + "</html>");
         }
     }
