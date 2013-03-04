@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,7 +36,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  *
  * @author svpendse1
  */
-public class FlightStatusByFlightPanel extends javax.swing.JPanel {
+public class FlightStatusByFlightPanel extends FlightStatusPanel {
 
 	/** Creates new form StatusByFlightPanel */
 	public FlightStatusByFlightPanel() {
@@ -282,6 +283,10 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private FlightStatusPanel statusPanel;
     private FlightInformationPanel infoPanel;
 
+    public JButton getTrackButton() {
+        return jButton1;
+    }
+
     class SearchByFlightThread implements Runnable {
         FlightStatusByFlightPanel panel;
         
@@ -456,15 +461,15 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             if (status.contains("Canceled")) {
                 statusLabel.setBackground(Color.RED);
                 statusLabel.setForeground(Color.WHITE);
-            }else if (status.contains("Delayed")) {
+            } else if (status.contains("Scheduled")) {
+                statusLabel.setBackground(Color.BLUE);
+                statusLabel.setForeground(Color.WHITE);
+            } else if (status.contains("Delayed")) {
                 statusLabel.setBackground(Color.YELLOW);
                 statusLabel.setForeground(Color.BLACK);
             } else if (status.contains("On-time")) {
                 statusLabel.setBackground(Color.GREEN);
                 statusLabel.setForeground(Color.BLACK);
-            } else if (status.contains("Scheduled")) {
-                statusLabel.setBackground(Color.BLUE);
-                statusLabel.setForeground(Color.WHITE);
             }
         }
         

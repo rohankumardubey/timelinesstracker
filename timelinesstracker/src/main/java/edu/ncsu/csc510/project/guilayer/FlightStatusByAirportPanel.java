@@ -14,6 +14,9 @@ import edu.ncsu.csc510.project.commlayer.FlightStatusComm;
 import edu.ncsu.csc510.project.utillayer.DelayData;
 import edu.ncsu.csc510.project.utillayer.ResourceFetcher;
 import edu.ncsu.csc510.project.utillayer.WeatherData;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,18 +24,21 @@ import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 /**
  *
  * @author svpendse1
  */
-public class FlightStatusByAirportPanel extends javax.swing.JPanel {
+public class FlightStatusByAirportPanel extends FlightStatusPanel {
 
 	/** Creates new form StatusByAirport */
 	public FlightStatusByAirportPanel(javax.swing.JTabbedPane parentTab, FlightStatusByFlightPanel flightPanel) {
@@ -42,7 +48,10 @@ public class FlightStatusByAirportPanel extends javax.swing.JPanel {
 		this.buttonGroup1.add(this.departureOption);
 		this.buttonGroup1.add(this.arrivalOption);
 		this.departureOption.setSelected(true);
-		ResourceFetcher fetcher = new ResourceFetcher();
+        this.jTable1.setDefaultRenderer(Object.class, new CustomCellRenderer());
+        this.jTable1.setSelectionBackground(Color.GRAY);
+        this.jTable1.setGridColor(Color.GRAY);
+        ResourceFetcher fetcher = new ResourceFetcher();
         weatherPanel = new WeatherPanel();
         delayPanel = new DelayPanel();
 
@@ -98,7 +107,17 @@ public class FlightStatusByAirportPanel extends javax.swing.JPanel {
         busyLabel = new org.jdesktop.swingx.JXBusyLabel();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable() {
+            public String getToolTipText(MouseEvent me) {
+                String tip = null;
+                java.awt.Point p = me.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+                int realColumnIndex = convertColumnIndexToModel(colIndex);
+
+                return jTable1.getValueAt(rowIndex, realColumnIndex).toString();
+            }
+        };
         trackButton = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(640, 464));
@@ -331,29 +350,15 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private SimpleDateFormat dateFormat;
     private WeatherPanel weatherPanel;
     private DelayPanel delayPanel;
-    
-    
-    class SharedListSelectionHandler implements ListSelectionListener {
-        private FlightStatusByAirportPanel panel;
-        public SharedListSelectionHandler(FlightStatusByAirportPanel panel) {
-            this.panel = panel;
-        }
-        public void valueChanged(ListSelectionEvent e) {
-            ListSelectionModel lsm = (ListSelectionModel)e.getSource();
-            if (lsm.isSelectionEmpty()) {
-            } else {
-                int minIndex= lsm.getMinSelectionIndex();
-                int maxIndex = lsm.getMaxSelectionIndex();
-                for (int i = minIndex; i <= maxIndex; i++) {
-                    if (lsm.isSelectedIndex(i)) {
-                        panel.trackButton.setEnabled(true);
-                        break;
-                    }
-                }
-            }
-        }
+
+    public JButton getTrackButton() {
+        return trackButton;
     }
 
+    public void setTrackButton(JButton trackButton) {
+        this.trackButton = trackButton;
+    }
+    
     class SearchByAirport implements Runnable {
         FlightStatusByAirportPanel panel;
         

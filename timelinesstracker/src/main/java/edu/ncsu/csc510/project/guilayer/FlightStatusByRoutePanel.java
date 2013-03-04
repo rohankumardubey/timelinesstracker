@@ -15,17 +15,17 @@ import edu.ncsu.csc510.project.commlayer.FlightStatusComm;
 import edu.ncsu.csc510.project.utillayer.DelayData;
 import edu.ncsu.csc510.project.utillayer.ResourceFetcher;
 import edu.ncsu.csc510.project.utillayer.WeatherData;
+import java.awt.Color;
+import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -33,13 +33,16 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  *
  * @author svpendse1
  */
-public class FlightStatusByRoutePanel extends javax.swing.JPanel {
+public class FlightStatusByRoutePanel extends FlightStatusPanel {
 
 	/** Creates new form StatusByRoutePanel */
 	public FlightStatusByRoutePanel(javax.swing.JTabbedPane parentTab, FlightStatusByFlightPanel flightPanel) {
         this.parentTab = parentTab;
         this.flightPanel = flightPanel;
 		initComponents();
+        this.jTable1.setDefaultRenderer(Object.class, new CustomCellRenderer());
+        this.jTable1.setSelectionBackground(Color.GRAY);
+        this.jTable1.setGridColor(Color.GRAY);
 		ResourceFetcher fetcher = new ResourceFetcher();
         sourceWeatherPanel = new WeatherPanel();
         destWeatherPanel = new WeatherPanel();
@@ -95,7 +98,17 @@ public class FlightStatusByRoutePanel extends javax.swing.JPanel {
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         trackButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable() {
+            public String getToolTipText(MouseEvent me) {
+                String tip = null;
+                java.awt.Point p = me.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+                int realColumnIndex = convertColumnIndexToModel(colIndex);
+
+                return jTable1.getValueAt(rowIndex, realColumnIndex).toString();
+            }
+        };
 
         setPreferredSize(new java.awt.Dimension(600, 464));
 
@@ -121,7 +134,7 @@ public class FlightStatusByRoutePanel extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(464, Short.MAX_VALUE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(busyLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(404, 404, 404))
             .add(jPanel1Layout.createSequentialGroup()
@@ -129,15 +142,14 @@ public class FlightStatusByRoutePanel extends javax.swing.JPanel {
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(78, 78, 78)
                         .add(jLabel1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 142, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(jLabel3)
                         .add(93, 93, 93))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(departureField, 0, 233, Short.MAX_VALUE)
+                        .add(departureField, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(18, 18, 18)
-                        .add(arrivalField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 244, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
+                        .add(arrivalField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 244, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(36, 36, 36)
@@ -199,19 +211,19 @@ public class FlightStatusByRoutePanel extends javax.swing.JPanel {
                 .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(460, Short.MAX_VALUE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(trackButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(320, 320, 320))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .add(85, 85, 85)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
+                .add(jScrollPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 149, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
@@ -289,26 +301,12 @@ private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
     private WeatherPanel sourceWeatherPanel, destWeatherPanel;
 
-    class SharedListSelectionHandler implements ListSelectionListener {
-        private FlightStatusByRoutePanel panel;
-        public SharedListSelectionHandler(FlightStatusByRoutePanel panel)  {
-            this.panel = panel;
-        }
-        
-        public void valueChanged(ListSelectionEvent e) {
-            ListSelectionModel lsm = (ListSelectionModel)e.getSource();
-            if (lsm.isSelectionEmpty()) {
-            } else {
-                int minIndex= lsm.getMinSelectionIndex();
-                int maxIndex = lsm.getMaxSelectionIndex();
-                for (int i = minIndex; i <= maxIndex; i++) {
-                    if (lsm.isSelectedIndex(i)) {
-                        panel.trackButton.setEnabled(true);
-                        break;
-                    }
-                }
-            }
-        }
+    public JButton getTrackButton() {
+        return trackButton;
+    }
+
+    public void setTrackButton(JButton trackButton) {
+        this.trackButton = trackButton;
     }
 
     class SearchByRoute implements Runnable {

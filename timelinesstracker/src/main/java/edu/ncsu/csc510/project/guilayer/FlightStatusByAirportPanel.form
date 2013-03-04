@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
@@ -240,6 +240,7 @@
             </Property>
           </Properties>
           <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable() {&#xa;    public String getToolTipText(MouseEvent me) {&#xa;        String tip = null;&#xa;        java.awt.Point p = me.getPoint();&#xa;        int rowIndex = rowAtPoint(p);&#xa;        int colIndex = columnAtPoint(p);&#xa;        int realColumnIndex = convertColumnIndexToModel(colIndex);&#xa;&#xa;        return jTable1.getValueAt(rowIndex, realColumnIndex).toString();&#xa;    }&#xa;}"/>
             <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="private javax.swing.table.DefaultTableModel airportTableModel;"/>
             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="airportTableModel = new javax.swing.table.DefaultTableModel(null,&#xa;new String [] {&#xa;        &quot;Destination&quot;, &quot;Flight&quot;, &quot;On-time Rating&quot;, &quot;Airline&quot;, &quot;Sched. Departure&quot;,&#xa;        &quot;Act. Departure&quot;, &quot;Term Gate&quot;, &quot;Status&quot;, &quot;Equipment&quot;&#xa;    }&#xa;) {&#xa;    public boolean isCellEditable(int row, int column) {&#xa;        return false;&#xa;    }&#xa;};"/>
           </AuxValues>
