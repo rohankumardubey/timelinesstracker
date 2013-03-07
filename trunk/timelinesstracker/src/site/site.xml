@@ -1,9 +1,26 @@
 <project name = "Airline Timeliness Tracker">
+
+<bannerLeft>
+<name>Timeliness Tracker</name>
+<src>images/trackericon.png</src>
+<href>http://code.google.com/p/timelinesstracker/</href>
+</bannerLeft>
+<bannerRight>
+<src>images/mavenlogo.jpg</src>
+</bannerRight>
+
 <body>
 <menu name="Timeliness Tracker">
 <item name="Overview" href="index.html"/>     
-<item name="About" href="about.html" />
+<item name="Project Goals" href="about.html" />
 </menu>
+<menu name="Project Design">
+<item name="Context Diagram" href="context.html"/>
+<item name="System Actors" href="actors.html"/>
+<item name="Architecture View" href="archview.html"/>
+</menu>
+
 <menu ref="reports"/>
+<menu ref="modules"/>
 </body>
 </project>

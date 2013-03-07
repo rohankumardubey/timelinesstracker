@@ -1,19 +1,20 @@
 Airline Timeliness Tracker
 
-* Overview	
-
-	What is this system about?
+* Project Goals
 	
-	* List item 1
+	* An open-source utility for airline timeliness tracking.\ 
 
-	* List item 2
+	* Provision of real-time flight data for all carriers, airports and active routes in the United States.\
+
+    * Get access to real-time information without using any proprietary/paid Developer API.\
+
+    * Required Information and Statistics : Current Status of Flights, Airports and Routes as well as their Timeliness Ratings.\
+
+    * Required also is the real-time weather data for any U.S. airport.\
+
+    * Required to display the real-time positional data for flights on a map.\
+
+    * Access to this information via mobile interace together with a primary desktop application using the SPARQCode barcode to enable optical machine reading of flight status URLs using a mobile device's camera.\
 
 	[]
 
-	Link to {{{http://www.saurabhpendse.com}Saurabh Pendse's Website}}.
-
-[images/htm_network.png] An HTM network for image recognition
-
-* Goals
-
-	What are the major goals?

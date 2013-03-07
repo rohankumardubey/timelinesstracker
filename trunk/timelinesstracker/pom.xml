@@ -9,12 +9,57 @@
   <packaging>jar</packaging>
 
   <name>timelinesstracker</name>
+  <description>A real-time flight timeliness tracker utility.</description>
   <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  
+  <developers>
+      <developer>
+          <id>svpendse</id>
+          <name>Saurabh V. Pendse</name>
+          <email>svpendse@ncsu.edu</email>
+          <url>http://www.saurabhpendse.com</url>
+          <organization>North Carolina State University</organization>
+          <organizationUrl>http://csc.ncsu.edu</organizationUrl>
+          <roles>
+              <role>architect</role>
+              <role>developer</role>
+              <role>contributor</role>
+          </roles>
+      </developer>
+      <developer>
+          <id>nssalian</id>
+          <name>Neelesh Salian</name>
+          <email>nsalian@ncsu.edu</email>
+          <url></url>
+          <organization>North Carolina State University</organization>
+          <organizationUrl>http://csc.ncsu.edu</organizationUrl>
+          <roles>
+              <role>developer</role>
+              <role>contributor</role>
+          </roles>
+          <properties>
+          </properties>
+      </developer>
+  </developers>
 
+  <contributors>
+      <contributor>
+          <name>Aldo Dagnino</name>
+          <email>adagnin@ncsu.edu</email>
+          <url>http://www.agileteams.com/aboutAD.html</url>
+          <organization>ABB, North Carolina State University</organization>
+          <organizationUrl>http://csc.ncsu.edu, www.abb.com</organizationUrl> 
+          <roles>
+              <role>advisor</role>
+              <role>mentor</role>
+          </roles>
+      </contributor>
+  </contributors>
+  
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
