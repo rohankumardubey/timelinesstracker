@@ -1,0 +1,21 @@
+Search By Flight GUI
+
+* Enroute Flight
+
+[images/screenshots/by_flight_enroute.tiff] Enroute
+
+* Scheduled, On-time Flight
+
+[images/screenshots/by_flight_scheduled_on_time.tiff]
+
+* Scheduled, Delayed Flight
+
+[images/screenshots/by_flight_scheduled_delayed.tiff]
+
+* Scheduled, Canceled Flight
+
+[images/screenshots/by_flight_canceled.tiff]
+
+* A multi-segment Flight
+
+[images/screenshots/by_flight_multisegments.tiff]

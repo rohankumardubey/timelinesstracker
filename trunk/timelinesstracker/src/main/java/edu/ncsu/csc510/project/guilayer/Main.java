@@ -23,8 +23,8 @@ public class Main
                     Application application = Application.getApplication();
                     application.setDockIconImage(im);
 			    } catch (Exception e) {
-				    e.printStackTrace();
-			    }
+			        System.err.println("Error in initializing the GUI");
+                }
 		    }
 	    });
     }

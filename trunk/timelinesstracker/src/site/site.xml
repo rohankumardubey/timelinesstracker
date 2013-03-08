@@ -13,6 +13,11 @@
 <menu name="Timeliness Tracker">
 <item name="Overview" href="index.html"/>     
 <item name="Project Goals" href="about.html" />
+<item name="Screenshots" href="screenshots.html" collapse="true">
+    <item name="Search By Flight" href="screenshots_by_flight.html"/>
+    <item name="Search By Airport" href="screenshots_by_airport.html"/>
+    <item name="Search By Route" href="screenshots_by_route.html"/>
+</item>
 </menu>
 <menu name="Project Design">
 <item name="Context Diagram" href="context.html"/>

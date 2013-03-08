@@ -57,7 +57,7 @@ public class CommTester {
             System.out.println(currentPage.asXml());*/
             
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Could not execute CommTester");
         }
         //System.out.println(currentPage.asXml());
     }

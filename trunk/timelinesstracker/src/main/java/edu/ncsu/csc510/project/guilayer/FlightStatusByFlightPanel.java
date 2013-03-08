@@ -68,8 +68,8 @@ public class FlightStatusByFlightPanel extends FlightStatusPanel {
 			this.airlineField.setModel(new DefaultComboBoxModel(fetcher.getAirlineCodesAndNames().toArray()));
 	        	 AutoCompleteDecorator.decorate(airlineField);
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		    System.err.println("Error in fetching resources (airlines)");
+        }
 
         dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         DateFormat df[] = new DateFormat[1];
@@ -88,7 +88,7 @@ public class FlightStatusByFlightPanel extends FlightStatusPanel {
         try {
             this.jXDatePicker1.setDate(dateFormat.parse(date));
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Incompatible Dateformat for dateField");
         }
     }
 	/** This method is called from within the constructor to
