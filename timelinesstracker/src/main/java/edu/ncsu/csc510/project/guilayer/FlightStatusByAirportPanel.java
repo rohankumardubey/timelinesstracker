@@ -63,8 +63,8 @@ public class FlightStatusByAirportPanel extends FlightStatusPanel {
 	        AutoCompleteDecorator.decorate(airportField);
 			AutoCompleteDecorator.decorate(airlineField);
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		    System.err.println("Error in setting up Airport Panel");
+        }
         this.removeAll();
         this.setLayout(new MigLayout("insets 10", "[]10[]", "[]10[]"));
 		this.add(this.jPanel1, "center, span 2 1, wrap, w 100%");

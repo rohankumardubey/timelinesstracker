@@ -53,7 +53,7 @@ public class FlightStatusByRoutePanel extends FlightStatusPanel {
 	        	 AutoCompleteDecorator.decorate(departureField);
 			 AutoCompleteDecorator.decorate(arrivalField);
 		} catch (Exception e) {
-			e.printStackTrace();
+		    System.err.println("Error in setting up Route Panel");
 		}
         this.removeAll();
         this.setLayout(new MigLayout("fillx, insets 10", "[]10[]", "[]10[]"));

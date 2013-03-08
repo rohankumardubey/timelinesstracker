@@ -65,7 +65,6 @@ public class FlightStatusComm {
 		}
 		catch(Exception e) {
 			System.out.println("Could not open browser window");
-			e.printStackTrace();		
 		}		
 	}
 
@@ -91,7 +90,7 @@ public class FlightStatusComm {
 		currentPage = (HtmlPage)button.click();
             }
           } catch (Exception e) {
-              e.printStackTrace();
+            System.err.println("Could not query flight status by airport");
           }
 	} 
     
@@ -111,7 +110,7 @@ public class FlightStatusComm {
 		    } 		    
             return false;
         } catch(Exception e) {
-			e.printStackTrace();
+            System.err.println("Coudl not query status by flight");
 		}
         return false;
 	}
@@ -128,7 +127,7 @@ public class FlightStatusComm {
 				//System.out.println(currentPage.asText());
             }
         } catch (Exception e) {
-           e.printStackTrace(); 
+            System.err.println("Could not query status by route");
         }
         
     }
@@ -152,7 +151,7 @@ public class FlightStatusComm {
         try {
             currentPage = (HtmlPage) browser.getPage(href);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Unable to get flight segment");
         }
     }
     
@@ -194,8 +193,8 @@ public class FlightStatusComm {
             return data;
 			//return division.asXml() + table.asXml();
 		} catch (Exception e) {
-            e.printStackTrace();
-			return null;
+			System.err.println("Could not get flight status table");
+            return null;
 		}
 	}
     
@@ -339,7 +338,7 @@ public class FlightStatusComm {
 			//7th image tag refers to the SPARQ barcode image
 			code = image.getImageReader().read(0);			
 		} catch (Exception e) {
-			e.printStackTrace();
+            System.err.println("Could not get QR code");
 			return null;
 		}
 		return code;
@@ -543,6 +542,7 @@ public class FlightStatusComm {
 	    			InputStream inputStream = page.getInputStream();
 		    		map = (BufferedImage)ImageIO.read(inputStream);
                 } catch (Exception ex) {
+                    System.err.println("Could not get static Maps");
                     ex.printStackTrace();
                 }
             } else if (found && currentPage.asXml().contains("Scheduled")) {
@@ -644,241 +644,4 @@ public class FlightStatusComm {
 			e.printStackTrace();		
 		}
 	}
-   
-    //A thread to fetch static map. The goal is to have the map update at run time.
-    /*class MapFetcher implements Runnable {
-
-        boolean running;
-        JLabel label;
-        public MapFetcher(JLabel label) {
-            this.running = false;
-            this.label = label;
-        }
-       
-        public void finalize() {
-            this.running = false;
-        }
-        public void run() {
-            while (running) {
-               BufferedImage map = null;
-    		try {		
-                currentPage = browser.getPage(currentPage.getUrl());
-	    		DomNodeList<DomElement> list;
-	    		//21st javascript to get departure, arrival and flight coordinates
-	   	    	list = currentPage.getElementsByTagName("script");
-                 HtmlScript script = null;
-                 boolean found = false;
-                  for (int i = 0; i < list.size(); ++i) {
-             	 	 script = (HtmlScript)list.get(i);
-                     if (script.asXml().contains("var depAirport = new AirportForMap();")) {
-                         found = true;
-                         break;       
-                     }
-                  }
-	    		//browser.setJavaScriptEnabled(true);
-        			//ScriptResult result = currentPage.executeJavaScript("return depAirport.airportCode;");			
-			//System.out.println(result.getJavaScriptResult());
-    	
-    			String xmlContent = script.asXml();
-    			if (found) {
-    				System.out.println("This flight is currently active");			
-    				String[] lines = xmlContent.split(System.getProperty("line.separator"));
-    	
-	    			String depAirportLat = "", depAirportLong = "";
-	    			String arrAirportLat = "", arrAirportLong = "";
-	    			String flightLat = "", flightLong = "";			
-	    			//Departure airport data
-	    			//for (int i = 4; i < 11; i++) {
-	    			//	System.out.println(lines[i]);
-	    			//}
-	    	
-	    			Pattern p = Pattern.compile("-?\\d+\\.?\\d*");
-	    			Matcher m = p.matcher(lines[5]);
-	    			while (m.find()) {
-	    				depAirportLat = m.group();
-	    			}
-	    			m = p.matcher(lines[6]);
-	    			while (m.find()) {
-	    				depAirportLong = m.group();
-	    			}
-	    	
-		    		//Arrival airport data
-		    		//for (int i = 13; i< 20; i++) {
-		    		//	System.out.println(lines[i]);
-		    		//}
-		    		
-		    		m = p.matcher(lines[14]);
-		    		while (m.find()) {
-		    			arrAirportLat = m.group();
-		    		}
-	    			m = p.matcher(lines[15]);
-	    			while (m.find()) {
-	    				arrAirportLong = m.group();
-				}
-	    			
-                    //Flight data
-    				//Check if the flight co-ordinates are equal to the departure/arrival airport co-ordinates
-    				int flightLatIndex = 41, flightLongIndex = 42;
-    				for (int i = 23; i< 44; i++) {
-    					if (lines[i].contains("flight.lat")) {
-    						flightLatIndex = i;
-    					}
-    					if (lines[i].contains("flight.long")) {
-    						flightLongIndex = i;
-	    				}
-	    				//System.out.println(i + " : " + lines[i]);
-    				}	
-	    			m = p.matcher(lines[flightLatIndex]);
-    				while (m.find()) {
-    					flightLat = m.group();
-    				}
-    				m = p.matcher(lines[flightLongIndex]);
-     				while (m.find()) {
-	    				flightLong = m.group();
-    				}
-			
-    				//!TODO : add code later on to check the distance from the departure and arrival airports. If distance < kThreshold, the flight has either not departed, or has arrived.
-	    			
-		    		//Flight is at the departure or arrival airport
-    				if (lines[flightLatIndex].equals("flight.lat = depAirport.lat;")) {
-    					System.out.println("Flight is at the departure airport");
-    					flightLat = depAirportLat;
-    					flightLong = depAirportLong;
-    				} else if (lines[flightLatIndex].equals("flight.lat = arrAirport.lat;")) {
-    					flightLat = arrAirportLat;
-    					flightLong = arrAirportLong;
-	    				System.out.println("Flight has arrived");
-    				}
-    				
-    				System.out.println(depAirportLat + " " + depAirportLong + " " +
-    						   arrAirportLat + " " + arrAirportLong + " " +
-    						   flightLat + " " + flightLong);
-
-		    		//Sample URL for google static maps.
-                     //http://maps.googleapis.com/maps/api/staticmap?center=33.73,-119.58&size=600x300&maptype=roadmap%20&markers=color:blue%7Clabel:S%7C32.89,-97.04&markers=color:green%7Clabel:F%7Csize:small%7C33.73,-119.58&markers=color:red%7Ccolor:red%7Clabel:D%7C21.325,%20-157.921&sensor=false				     
-    				String centerLat = "" + (Float.parseFloat(depAirportLat) + Float.parseFloat(arrAirportLat))/2;
-    				String centerLong = "" + (Float.parseFloat(depAirportLong) + Float.parseFloat(arrAirportLong))/2;
-				
-    				String mapUrl = "http://maps.googleapis.com/maps/api/staticmap?center=" 
-                                 + centerLat + "," + centerLong 
-                                 + "&size=600x225&maptype=roadmap%20&markers=color:blue|label:S|" 
-                                 + depAirportLat + "," + depAirportLong + "&markers=color:green|label:F|size:small|" 
-                                 + flightLat + "," + flightLong + "&markers=color:red|color:red|label:D|" 
-                                 + arrAirportLat + "," + arrAirportLong + "&sensor=false";
-                 
-    				UnexpectedPage page = browser.getPage(mapUrl);
-    				InputStream inputStream = page.getInputStream();
-    				map = (BufferedImage)ImageIO.read(inputStream);
-    			} else if (currentPage.asXml().contains("This flight has multiple segments")){
-                    System.out.println("This flight has multiple segments");
-                
-                } else {
-    				System.out.println("This flight is currently inactive");
-    				String arrAirportLat = "", arrAirportLong = "";
-    				String[] lines = xmlContent.split(System.getProperty("line.separator"));
-
-                    //for (int i = 0; i < lines.length; i++) {
-	    				System.out.println(i + ": " + lines[i]);
-    				}//
-    
-    				//The 5th and 6th lines contain the destination airport latitude and 
-    				//longitude
-    				Pattern p = Pattern.compile("-?\\d+\\.?\\d*");
-    				Matcher m = p.matcher(lines[4]);
-    				while (m.find()) {
-    					arrAirportLat = m.group();					
-    				}
-
-    				m = p.matcher(lines[5]);
-    				while (m.find()) {
-    					arrAirportLong = m.group();
-    				}
-
-        			String mapUrl = "http://maps.googleapis.com/maps/api/staticmap?center=" 
-                                    + arrAirportLat + "," + arrAirportLong 
-                                   + "&zoom=12&size=600x225&maptype=roadmap%20&markers=color:red|color:red|label:D|" 
-                                    + arrAirportLat + "," + arrAirportLong + "&sensor=false";
-
-    				UnexpectedPage page = browser.getPage(mapUrl);
-    				InputStream inputStream = page.getInputStream();
-    				map = (BufferedImage)ImageIO.read(inputStream);
-
-    			}
-    		} catch (Exception e) {
-                System.out.println("In catch block");
-                DomNodeList<DomElement> list = currentPage.getElementsByTagName("script");
-                HtmlScript script = null;
-                boolean found = false;
-                for (int i = 0; i < list.size(); ++i) {
-        	       script = (HtmlScript)list.get(i);
-                   if (script.asXml().contains("targetedAirport")) {
-                      found = true;
-                      break;       
-                   }
-                } 
-                script = (HtmlScript)list.get(8);
-                if (found && currentPage.asXml().contains("Landed")) {
-                    System.out.println(script.asXml());
-    			    String lines[] = script.asXml().split(System.getProperty("line.separator"));
-                    String targetAirport = null, targetCity = null;
-                    Pattern p = Pattern.compile("\"[\\w\\s/]+\"");
-                    //Target airport
-                    Matcher m = p.matcher(lines[3]);
-                    while (m.find()) {
-                        targetAirport = m.group();
-                    }
-                    targetAirport = targetAirport.substring(1, targetAirport.length()); 
-                    //The target city
-                    m = p.matcher(lines[5]);
-                    while (m.find()) {
-                        targetCity = m.group();
-                    }
-                    targetCity = targetCity.substring(1, targetCity.length());
-                    String mapUrl = "http://maps.googleapis.com/maps/api/staticmap?center=" 
-                                    + targetAirport + "," + targetCity + "&zoom=13&size=600x225&maptype=roadmap&sensor=true"; 
-                    try {
-                        UnexpectedPage page = browser.getPage(mapUrl);
-    	    			InputStream inputStream = page.getInputStream();
-    		    		map = (BufferedImage)ImageIO.read(inputStream);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                } else if (found && currentPage.asXml().contains("Scheduled")) {
-                   String lines[] = script.asXml().split(System.getProperty("line.separator"));
-                    String sourceAirport = null, sourceCity = null;
-                    Pattern p = Pattern.compile("\"[\\w\\s]+\"");
-                    //Target airport
-                    Matcher m = p.matcher(lines[6]);
-                    while (m.find()) {
-                        sourceAirport = m.group();
-                    }
-                    sourceAirport = sourceAirport.substring(1, sourceAirport.length()); 
-                    //The target city
-                    m = p.matcher(lines[8]);
-                    while (m.find()) {
-                        sourceCity = m.group();
-                    }
-                    sourceCity = sourceCity.substring(1, sourceCity.length());
-                    String mapUrl = "http://maps.googleapis.com/maps/api/staticmap?center=" 
-                                    + sourceAirport + "," + sourceCity + "&zoom=13&size=600x225&maptype=roadmap&sensor=true"; 
-                    try {
-                        UnexpectedPage page = browser.getPage(mapUrl);
-	        			InputStream inputStream = page.getInputStream();
-	    	    		map = (BufferedImage)ImageIO.read(inputStream);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        }
-                    }
-		        }
-                label.setIcon(new ImageIcon(map));
-                try {
-                    Thread.sleep(10000);
-                    System.out.println("Thread sleeping");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }*/
 }
-

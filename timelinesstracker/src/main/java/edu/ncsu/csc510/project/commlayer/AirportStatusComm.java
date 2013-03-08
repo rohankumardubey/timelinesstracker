@@ -51,8 +51,7 @@ public class AirportStatusComm {
 			currentPage = (HtmlPage) browser.getPage("http://www.flightstats.com/go/Airport/weather.do");
 		}
 		catch(Exception e) {
-			System.out.println("Could not open browser window");
-			e.printStackTrace();		
+			System.err.println("Could not open browser window");
 		}		
 	}
 
@@ -62,7 +61,7 @@ public class AirportStatusComm {
             HtmlImageInput  button = (HtmlImageInput)currentPage.getElementById("airportWeatherForm_0");			
 		    currentPage = (HtmlPage)button.click();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Could not query weather status by airport");
         }
 	}
 

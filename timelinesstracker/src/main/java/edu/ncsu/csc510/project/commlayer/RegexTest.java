@@ -51,7 +51,7 @@ public class RegexTest {
             fos.close();
             oos.close();
         } catch (Exception e) {
-           e.printStackTrace(); 
+            System.err.println("Could not execute RegexTest");
         }
                
     }
