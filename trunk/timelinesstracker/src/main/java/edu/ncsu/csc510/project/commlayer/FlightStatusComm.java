@@ -68,9 +68,10 @@ public class FlightStatusComm {
 		}		
 	}
 
-    public void queryFlightStatusByAirport(String airportName, String date, String timePeriod, String airlineName, 
-                                               String searchOption,
-                                               SearchMethod method) {
+    public void queryFlightStatusByAirport(String airportName, String date, 
+                                           String timePeriod, String airlineName, 
+                                           String searchOption,
+                                           SearchMethod method) {
           try {
             if (method == SearchMethod.BY_AIRPORT) {					
 		((HtmlTextInput) currentPage.getElementByName("airport")).setValueAttribute(airportName);	
@@ -94,7 +95,9 @@ public class FlightStatusComm {
           }
 	} 
     
-    public boolean queryFlightStatusByFlight(String airlineName, String flightNumber, String date, SearchMethod method) {
+    public boolean queryFlightStatusByFlight(String airlineName, 
+                                             String flightNumber, String date, 
+                                             SearchMethod method) {
 		try {
 			if (method == SearchMethod.BY_FLIGHT) {
 				((HtmlTextInput) currentPage.getElementByName("airline")).setValueAttribute(airlineName);
@@ -115,8 +118,8 @@ public class FlightStatusComm {
         return false;
 	}
 
-    public void queryFlightStatusByRoute(String departureName, String arrivalName, String date,
-                                         SearchMethod method) {
+    public void queryFlightStatusByRoute(String departureName, String arrivalName, 
+                                         String date, SearchMethod method) {
         try {
             if (method == SearchMethod.BY_ROUTE) {
 				((HtmlTextInput) currentPage.getElementByName("departure")).setValueAttribute(departureName);
