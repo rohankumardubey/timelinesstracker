@@ -506,7 +506,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             if (output == null) {
                 output = "N/A";
             }
-            onTimeLabel.setText("<html><b>On Time Rating : </b>" + output + "</html>");
+            onTimeLabel.setText("<html><b>On Time Rating : </b>" + output.replace("\n", " ") + "</html>");
         }
     }
 }

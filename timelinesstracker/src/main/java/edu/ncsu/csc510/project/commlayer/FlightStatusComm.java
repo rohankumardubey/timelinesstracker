@@ -634,7 +634,11 @@ public class FlightStatusComm {
 			
 			
 			//http://maps.googleapis.com/maps/api/staticmap?center=33.73,-119.58&size=600x300&maptype=roadmap%20&markers=color:blue%7Clabel:S%7C32.89,-97.04&markers=color:green%7Clabel:F%7Csize:small%7C33.73,-119.58&markers=color:red%7Ccolor:red%7Clabel:D%7C21.325,%20-157.921&sensor=false			
-			String mapUrl = "http://maps.googleapis.com/maps/api/staticmap?center=33.73,-119.58&size=600x225&maptype=roadmap%20&markers=color:blue|label:S|32.89,-97.04&markers=color:green|label:F|size:small|33.73,-119.58&markers=color:red|color:red|label:D|21.325, -157.921&sensor=false";
+			String mapUrl = "http://maps.googleapis.com/maps/api/staticmap?center=33.73,-119.58" + 
+                            "&size=600x225&maptype=roadmap%20&markers=color:blue|label:S|32.89,-97.04" + 
+                            "&markers=color:green|label:F|size:small|33.73,-119.58&" + 
+                            "markers=color:red|color:red|label:D|21.325, -157.921&sensor=false";
+            
 			UnexpectedPage page = browser.getPage(mapUrl);
 			InputStream inputStream = page.getInputStream();
 			BufferedImage map = (BufferedImage)ImageIO.read(inputStream);
